@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlastOS - 下一代操作系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <h1>BlastOS</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">特性</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#download">下载</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">欢迎来到 BlastOS</h1>
+                <p class="hero-subtitle">革命性的操作系统，为现代计算而生</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('download')">立即下载</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('features')">了解更多</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="os-mockup">
+                    <div class="window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control close"></span>
+                                <span class="control minimize"></span>
+                                <span class="control maximize"></span>
+                            </div>
+                            <div class="window-title">BlastOS Desktop</div>
+                        </div>
+                        <div class="window-content">
+                            <div class="desktop-icon">📁</div>
+                            <div class="desktop-icon">⚙️</div>
+                            <div class="desktop-icon">🌐</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2 class="section-title">核心特性</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>极速性能</h3>
+                        <p>优化的内核设计，确保系统响应迅速，资源占用最小</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>安全防护</h3>
+                        <p>多层安全机制，保护您的数据和隐私安全</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>现代界面</h3>
+                        <p>简洁美观的用户界面，提供流畅的使用体验</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3>高度定制</h3>
+                        <p>丰富的定制选项，打造专属于您的操作系统</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>关于 BlastOS</h2>
+                        <p>BlastOS 是一个专为现代计算需求设计的新一代操作系统。我们致力于提供最佳的性能、安全性和用户体验。</p>
+                        <p>无论您是开发者、设计师还是普通用户，BlastOS 都能满足您的需求，让计算变得更加简单高效。</p>
+                        <ul class="about-highlights">
+                            <li>开源免费</li>
+                            <li>跨平台支持</li>
+                            <li>活跃的社区</li>
+                            <li>持续更新</li>
+                        </ul>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">1M+</div>
+                            <div class="stat-label">用户</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">贡献者</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">99.9%</div>
+                            <div class="stat-label">稳定性</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="download" class="download">
+            <div class="container">
+                <h2 class="section-title">开始使用 BlastOS</h2>
+                <p class="download-subtitle">选择适合您设备的版本</p>
+                <div class="download-options">
+                    <div class="download-card">
+                        <h3>桌面版</h3>
+                        <p>适用于 PC 和笔记本电脑</p>
+                        <button class="btn btn-primary">下载 (x64)</button>
+                    </div>
+                    <div class="download-card">
+                        <h3>服务器版</h3>
+                        <p>适用于服务器和云环境</p>
+                        <button class="btn btn-primary">下载 (Server)</button>
+                    </div>
+                    <div class="download-card">
+                        <h3>开发版</h3>
+                        <p>最新功能的预览版本</p>
+                        <button class="btn btn-secondary">下载 (Beta)</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BlastOS</h3>
+                    <p>下一代操作系统</p>
+                </div>
+                <div class="footer-section">
+                    <h4>链接</h4>
+                    <ul>
+                        <li><a href="https://github.com/theBlastOS/BlastOS">GitHub</a></li>
+                        <li><a href="#">文档</a></li>
+                        <li><a href="#">社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>支持</h4>
+                    <ul>
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="https://github.com/theBlastOS/BlastOS/issues">问题反馈</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BlastOS. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
