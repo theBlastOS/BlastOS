@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlastOS - 下一代操作系统</title>
+    <title data-i18n="page.title">BlastOS - 下一代操作系统</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="i18n.js"></script>
 </head>
 <body>
     <header class="header">
@@ -13,9 +14,15 @@
                 <h1>BlastOS</h1>
             </div>
             <ul class="nav-links">
-                <li><a href="#features">特性</a></li>
-                <li><a href="#about">关于</a></li>
-                <li><a href="#download">下载</a></li>
+                <li><a href="#features" data-i18n="nav.features">特性</a></li>
+                <li><a href="#about" data-i18n="nav.about">关于</a></li>
+                <li><a href="#download" data-i18n="nav.download">下载</a></li>
+                <li class="language-selector">
+                    <button id="language-toggle" class="lang-btn" onclick="toggleLanguage()">
+                        <span id="current-lang">中文</span>
+                        <span class="lang-switch">🌐</span>
+                    </button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -23,11 +30,11 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-                <h1 class="hero-title">欢迎来到 BlastOS</h1>
-                <p class="hero-subtitle">革命性的操作系统，为现代计算而生</p>
+                <h1 class="hero-title" data-i18n="hero.title">欢迎来到 BlastOS</h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">革命性的操作系统，为现代计算而生</p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToSection('download')">立即下载</button>
-                    <button class="btn btn-secondary" onclick="scrollToSection('features')">了解更多</button>
+                    <button class="btn btn-primary" onclick="scrollToSection('download')" data-i18n="hero.download">立即下载</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('features')" data-i18n="hero.learn-more">了解更多</button>
                 </div>
             </div>
             <div class="hero-visual">
@@ -39,7 +46,7 @@
                                 <span class="control minimize"></span>
                                 <span class="control maximize"></span>
                             </div>
-                            <div class="window-title">BlastOS Desktop</div>
+                            <div class="window-title" data-i18n="hero.window-title">BlastOS Desktop</div>
                         </div>
                         <div class="window-content">
                             <div class="desktop-icon">📁</div>
@@ -53,27 +60,27 @@
 
         <section id="features" class="features">
             <div class="container">
-                <h2 class="section-title">核心特性</h2>
+                <h2 class="section-title" data-i18n="features.title">核心特性</h2>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">⚡</div>
-                        <h3>极速性能</h3>
-                        <p>优化的内核设计，确保系统响应迅速，资源占用最小</p>
+                        <h3 data-i18n="features.performance.title">极速性能</h3>
+                        <p data-i18n="features.performance.desc">优化的内核设计，确保系统响应迅速，资源占用最小</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔒</div>
-                        <h3>安全防护</h3>
-                        <p>多层安全机制，保护您的数据和隐私安全</p>
+                        <h3 data-i18n="features.security.title">安全防护</h3>
+                        <p data-i18n="features.security.desc">多层安全机制，保护您的数据和隐私安全</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🎨</div>
-                        <h3>现代界面</h3>
-                        <p>简洁美观的用户界面，提供流畅的使用体验</p>
+                        <h3 data-i18n="features.interface.title">现代界面</h3>
+                        <p data-i18n="features.interface.desc">简洁美观的用户界面，提供流畅的使用体验</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔧</div>
-                        <h3>高度定制</h3>
-                        <p>丰富的定制选项，打造专属于您的操作系统</p>
+                        <h3 data-i18n="features.customization.title">高度定制</h3>
+                        <p data-i18n="features.customization.desc">丰富的定制选项，打造专属于您的操作系统</p>
                     </div>
                 </div>
             </div>
@@ -83,28 +90,28 @@
             <div class="container">
                 <div class="about-content">
                     <div class="about-text">
-                        <h2>关于 BlastOS</h2>
-                        <p>BlastOS 是一个专为现代计算需求设计的新一代操作系统。我们致力于提供最佳的性能、安全性和用户体验。</p>
-                        <p>无论您是开发者、设计师还是普通用户，BlastOS 都能满足您的需求，让计算变得更加简单高效。</p>
+                        <h2 data-i18n="about.title">关于 BlastOS</h2>
+                        <p data-i18n="about.desc1">BlastOS 是一个专为现代计算需求设计的新一代操作系统。我们致力于提供最佳的性能、安全性和用户体验。</p>
+                        <p data-i18n="about.desc2">无论您是开发者、设计师还是普通用户，BlastOS 都能满足您的需求，让计算变得更加简单高效。</p>
                         <ul class="about-highlights">
-                            <li>开源免费</li>
-                            <li>跨平台支持</li>
-                            <li>活跃的社区</li>
-                            <li>持续更新</li>
+                            <li data-i18n="about.highlight1">开源免费</li>
+                            <li data-i18n="about.highlight2">跨平台支持</li>
+                            <li data-i18n="about.highlight3">活跃的社区</li>
+                            <li data-i18n="about.highlight4">持续更新</li>
                         </ul>
                     </div>
                     <div class="about-stats">
                         <div class="stat">
                             <div class="stat-number">1M+</div>
-                            <div class="stat-label">用户</div>
+                            <div class="stat-label" data-i18n="about.stats.users">用户</div>
                         </div>
                         <div class="stat">
                             <div class="stat-number">50+</div>
-                            <div class="stat-label">贡献者</div>
+                            <div class="stat-label" data-i18n="about.stats.contributors">贡献者</div>
                         </div>
                         <div class="stat">
                             <div class="stat-number">99.9%</div>
-                            <div class="stat-label">稳定性</div>
+                            <div class="stat-label" data-i18n="about.stats.stability">稳定性</div>
                         </div>
                     </div>
                 </div>
