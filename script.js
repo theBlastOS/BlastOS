@@ -182,18 +182,46 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(animateOnScroll, 100);
 });
 
-// Add some interactive features for the OS mockup
+// Enhanced interactive features
 document.addEventListener('DOMContentLoaded', () => {
+    // Desktop icons interaction
     const desktopIcons = document.querySelectorAll('.desktop-icon');
     
-    desktopIcons.forEach(icon => {
+    desktopIcons.forEach((icon, index) => {
         icon.addEventListener('click', () => {
-            icon.style.transform = 'scale(1.2)';
+            icon.style.transform = 'scale(1.3) rotateZ(10deg)';
+            icon.style.filter = 'brightness(1.2)';
             setTimeout(() => {
-                icon.style.transform = 'scale(1)';
-            }, 200);
+                icon.style.transform = 'scale(1) rotateZ(0deg)';
+                icon.style.filter = 'brightness(1)';
+            }, 300);
         });
+        
+        // Add staggered animation on load
+        icon.style.animation = `fadeInUp 0.6s ease ${index * 0.2}s both`;
     });
+    
+    // Parallax effect for hero background
+    const hero = document.querySelector('.hero');
+    let ticking = false;
+    
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const parallax = hero.querySelector('::before');
+        if (parallax) {
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick);
     
     // Add window dragging effect (visual only)
     const window = document.querySelector('.window');
