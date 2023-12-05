@@ -4,6 +4,9 @@ class I18n {
         this.currentLanguage = localStorage.getItem('language') || 'zh-CN';
         this.translations = {
             'zh-CN': {
+                // Page title
+                'page.title': 'BlastOS - 下一代操作系统',
+                
                 // Navigation
                 'nav.features': '特性',
                 'nav.about': '关于',
@@ -68,6 +71,9 @@ class I18n {
                 'easter-egg': '🎉 你发现了一个彩蛋！BlastOS 即将改变世界！'
             },
             'en': {
+                // Page title
+                'page.title': 'BlastOS - Next-generation operating system',
+                
                 // Navigation
                 'nav.features': 'Features',
                 'nav.about': 'About',

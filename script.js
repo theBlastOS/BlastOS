@@ -110,10 +110,11 @@ function toggleMobileMenu() {
 function showLoadingAnimation() {
     const loadingOverlay = document.createElement('div');
     loadingOverlay.id = 'loading-overlay';
+    const loadingText = typeof i18n !== 'undefined' ? i18n.t('loading') : '正在加载 BlastOS...';
     loadingOverlay.innerHTML = `
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <p>正在加载 BlastOS...</p>
+            <p>${loadingText}</p>
         </div>
     `;
     
@@ -174,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
     addButtonEffects();
     addRippleStyles();
+    updateLanguageButton();
     
     // Add scroll listener for animations
     window.addEventListener('scroll', animateOnScroll);
@@ -256,12 +258,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Language toggle functionality
+function toggleLanguage() {
+    const currentLang = i18n.getCurrentLanguage();
+    const newLang = currentLang === 'zh-CN' ? 'en' : 'zh-CN';
+    i18n.setLanguage(newLang);
+    updateLanguageButton();
+}
+
+function updateLanguageButton() {
+    const currentLangSpan = document.getElementById('current-lang');
+    const currentLang = i18n.getCurrentLanguage();
+    
+    if (currentLangSpan) {
+        currentLangSpan.textContent = currentLang === 'zh-CN' ? '中文' : 'English';
+    }
+}
+
 // Add Easter egg
 let clickCount = 0;
 document.querySelector('.logo h1').addEventListener('click', () => {
     clickCount++;
     if (clickCount === 5) {
-        alert('🎉 你发现了一个彩蛋！BlastOS 即将改变世界！');
+        const easterEggMessage = i18n.t('easter-egg');
+        alert(easterEggMessage);
         clickCount = 0;
     }
 });
