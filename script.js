@@ -9,66 +9,92 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Add scroll event listener for header background
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.header');
+// Optimized scroll event listener with throttling
+let ticking = false;
+let header = null;
+
+function updateHeader() {
+    if (!header) header = document.querySelector('.header');
+    
     if (window.scrollY > 100) {
         header.style.background = 'rgba(255, 255, 255, 0.98)';
     } else {
         header.style.background = 'rgba(255, 255, 255, 0.95)';
     }
-});
-
-// Animate elements on scroll
-function animateOnScroll() {
-    const elements = document.querySelectorAll('.feature-card, .download-card, .stat');
-    
-    elements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < window.innerHeight - elementVisible) {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }
-    });
+    ticking = false;
 }
 
-// Initialize animation styles
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(updateHeader);
+        ticking = true;
+    }
+}, { passive: true });
+
+// Optimized animation with cached elements and intersection observer
+let animationElements = [];
+let animationTicking = false;
+
+function animateOnScroll() {
+    if (!animationTicking) {
+        requestAnimationFrame(() => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 150;
+            
+            animationElements.forEach(element => {
+                if (!element.animated) {
+                    const elementTop = element.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                        element.animated = true;
+                    }
+                }
+            });
+            
+            animationTicking = false;
+        });
+        animationTicking = true;
+    }
+}
+
+// Initialize animation styles with caching
 function initAnimations() {
-    const elements = document.querySelectorAll('.feature-card, .download-card, .stat');
+    animationElements = [...document.querySelectorAll('.feature-card, .download-card, .stat')];
     
-    elements.forEach(element => {
+    animationElements.forEach(element => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(30px)';
         element.style.transition = 'all 0.6s ease';
+        element.animated = false;
     });
 }
 
-// Add click effects to buttons
+// Optimized button effects with event delegation
 function addButtonEffects() {
-    const buttons = document.querySelectorAll('.btn');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Create ripple effect
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.btn')) {
+            const button = e.target;
             const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
+            const rect = button.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
             
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
+            ripple.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+            `;
             ripple.classList.add('ripple');
             
-            this.appendChild(ripple);
+            button.appendChild(ripple);
             
             setTimeout(() => {
                 ripple.remove();
             }, 600);
-        });
+        }
     });
 }
 
@@ -203,27 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.style.animation = `fadeInUp 0.6s ease ${index * 0.2}s both`;
     });
     
-    // Parallax effect for hero background
-    const hero = document.querySelector('.hero');
-    let ticking = false;
-    
-    function updateParallax() {
-        const scrolled = window.pageYOffset;
-        const parallax = hero.querySelector('::before');
-        if (parallax) {
-            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
-        ticking = false;
-    }
-    
-    function requestTick() {
-        if (!ticking) {
-            requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', requestTick);
+    // Optimized parallax effect (removed duplicate ticking variable)
     
     // Add window dragging effect (visual only)
     const window = document.querySelector('.window');

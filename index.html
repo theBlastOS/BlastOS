@@ -2,10 +2,29 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="BlastOS - 革命性的操作系统，为现代计算而生。极速性能、安全防护、现代界面、高度定制。">
+    <meta name="keywords" content="BlastOS, 操作系统, OS, Linux, 开源, 免费, 高性能">
+    <meta name="author" content="BlastOS Team">
+    
+    <!-- Security headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="i18n.js" as="script">
+    
+    <!-- Critical CSS should be inlined for faster render -->
+    <style>
+        :root{--primary-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--primary-color:#667eea;--text-dark:#2c3e50;--bg-white:#ffffff;--transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;line-height:1.6;color:var(--text-dark);overflow-x:hidden;background:linear-gradient(45deg,#f8f9fa 0%,#e9ecef 100%)}.header{position:fixed;top:0;width:100%;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);z-index:1000;border-bottom:1px solid rgba(255,255,255,0.2);box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+    </style>
+    
     <title data-i18n="page.title">BlastOS - 下一代操作系统</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="i18n.js"></script>
+    <script src="i18n.js" defer></script>
 </head>
 <body>
     <header class="header">
@@ -173,6 +192,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
