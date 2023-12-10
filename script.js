@@ -12,14 +12,21 @@ function scrollToSection(sectionId) {
 // Optimized scroll event listener with throttling
 let ticking = false;
 let header = null;
+let lastScrollY = 0;
 
 function updateHeader() {
     if (!header) header = document.querySelector('.header');
     
-    if (window.scrollY > 100) {
-        header.style.background = 'rgba(255, 255, 255, 0.98)';
-    } else {
-        header.style.background = 'rgba(255, 255, 255, 0.95)';
+    const currentScrollY = window.scrollY;
+    
+    // Only update if scroll position changed significantly
+    if (Math.abs(currentScrollY - lastScrollY) > 10) {
+        if (currentScrollY > 100) {
+            header.style.background = 'rgba(255, 255, 255, 0.98)';
+        } else {
+            header.style.background = 'rgba(255, 255, 255, 0.95)';
+        }
+        lastScrollY = currentScrollY;
     }
     ticking = false;
 }
@@ -31,42 +38,59 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-// Optimized animation with cached elements and intersection observer
-let animationElements = [];
-let animationTicking = false;
+// Optimized animation with Intersection Observer API
+let observer = null;
 
-function animateOnScroll() {
-    if (!animationTicking) {
-        requestAnimationFrame(() => {
-            const windowHeight = window.innerHeight;
-            const elementVisible = 150;
-            
-            animationElements.forEach(element => {
-                if (!element.animated) {
-                    const elementTop = element.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                        element.animated = true;
-                    }
+function createIntersectionObserver() {
+    if ('IntersectionObserver' in window) {
+        observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.animated) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.animated = true;
+                    observer.unobserve(entry.target);
                 }
             });
-            
-            animationTicking = false;
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
         });
-        animationTicking = true;
     }
+    return observer;
+}
+
+// Fallback for browsers without Intersection Observer
+function animateOnScrollFallback() {
+    const windowHeight = window.innerHeight;
+    const elementVisible = 150;
+    
+    document.querySelectorAll('.feature-card, .download-card, .stat').forEach(element => {
+        if (!element.animated) {
+            const elementTop = element.getBoundingClientRect().top;
+            if (elementTop < windowHeight - elementVisible) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+                element.animated = true;
+            }
+        }
+    });
 }
 
 // Initialize animation styles with caching
 function initAnimations() {
-    animationElements = [...document.querySelectorAll('.feature-card, .download-card, .stat')];
+    const animationElements = document.querySelectorAll('.feature-card, .download-card, .stat');
     
     animationElements.forEach(element => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(30px)';
         element.style.transition = 'all 0.6s ease';
         element.animated = false;
+        
+        // Use Intersection Observer if available
+        if (observer) {
+            observer.observe(element);
+        }
     });
 }
 
@@ -132,82 +156,35 @@ function toggleMobileMenu() {
     navLinks.classList.toggle('mobile-open');
 }
 
-// Add loading animation
+// Simplified loading animation (removed as it might hurt performance)
 function showLoadingAnimation() {
-    const loadingOverlay = document.createElement('div');
-    loadingOverlay.id = 'loading-overlay';
-    const loadingText = typeof i18n !== 'undefined' ? i18n.t('loading') : '正在加载 BlastOS...';
-    loadingOverlay.innerHTML = `
-        <div class="loading-spinner">
-            <div class="spinner"></div>
-            <p>${loadingText}</p>
-        </div>
-    `;
-    
-    const loadingStyles = `
-        #loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            color: white;
-        }
-        
-        .loading-spinner {
-            text-align: center;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top: 3px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    `;
-    
-    const styleSheet = document.createElement('style');
-    styleSheet.textContent = loadingStyles;
-    document.head.appendChild(styleSheet);
-    document.body.appendChild(loadingOverlay);
-    
-    // Remove loading overlay after 2 seconds
-    setTimeout(() => {
-        loadingOverlay.style.opacity = '0';
-        loadingOverlay.style.transition = 'opacity 0.5s ease';
-        setTimeout(() => {
-            loadingOverlay.remove();
-            styleSheet.remove();
-        }, 500);
-    }, 2000);
+    // Skip loading animation for better performance
+    // Real loading indicators should be based on actual resource loading
+    return;
 }
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    showLoadingAnimation();
+    // Create intersection observer first
+    observer = createIntersectionObserver();
+    
     initAnimations();
     addButtonEffects();
     addRippleStyles();
     updateLanguageButton();
     
-    // Add scroll listener for animations
-    window.addEventListener('scroll', animateOnScroll);
-    
-    // Trigger initial animation check
-    setTimeout(animateOnScroll, 100);
+    // Add fallback scroll listener if Intersection Observer not supported
+    if (!observer) {
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(animateOnScrollFallback);
+                ticking = true;
+            }
+        }, { passive: true });
+        
+        // Trigger initial animation check
+        setTimeout(animateOnScrollFallback, 100);
+    }
 });
 
 // Enhanced interactive features
@@ -229,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.style.animation = `fadeInUp 0.6s ease ${index * 0.2}s both`;
     });
     
-    // Optimized parallax effect (removed duplicate ticking variable)
+    // Enhanced performance optimizations
     
     // Add window dragging effect (visual only)
     const window = document.querySelector('.window');
@@ -281,13 +258,20 @@ function updateLanguageButton() {
     }
 }
 
-// Add Easter egg
+// Add Easter egg with better performance
 let clickCount = 0;
-document.querySelector('.logo h1').addEventListener('click', () => {
-    clickCount++;
-    if (clickCount === 5) {
-        const easterEggMessage = i18n.t('easter-egg');
-        alert(easterEggMessage);
-        clickCount = 0;
+let logoElement = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    logoElement = document.querySelector('.logo h1');
+    if (logoElement) {
+        logoElement.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 5) {
+                const easterEggMessage = typeof i18n !== 'undefined' ? i18n.t('easter-egg') : '🎉 你发现了一个彩蛋！BlastOS 即将改变世界！';
+                alert(easterEggMessage);
+                clickCount = 0;
+            }
+        });
     }
 });
